@@ -14,24 +14,26 @@ import java.util.stream.Collectors;
 
 public class PaymentService {
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
-        //TODO 환율 가져오기
+        BigDecimal exRate = getExRate(currency);
+        BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
+        LocalDateTime validUntil = LocalDateTime.now().plusMinutes(30);
+
+        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
+    }
+
+    private BigDecimal getExRate(String currency) throws IOException {
         //https://open.er-api.com/v6/latest/USD
-        URL url = new URL("https://open.er-api.com/v6/latest/USD");
+
+        URL url = new URL("https://open.er-api.com/v6/latest/" + currency);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
         String response = br.lines().collect(Collectors.joining());
         br.close();
-        System.out.println("response = " + response);
 
         ObjectMapper mapper = new ObjectMapper();
         ExRateDate data = mapper.readValue(response, ExRateDate.class);
-        System.out.println(data);
         BigDecimal exRate = data.rates().get("KRW");
-        BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
-
-        LocalDateTime validUntil = LocalDateTime.now().plusMinutes(30);
-
-        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
+        return exRate;
     }
 
     public static void main(String[] args) throws IOException {

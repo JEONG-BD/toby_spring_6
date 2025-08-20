@@ -12,13 +12,13 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation('org.springframework.boot:spring-boot-starter')
-    testImplementation('org.springframework.boot:spring-boot-stater-test')
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+java {
+    sourceCompatibility = '17'
 }
 
-test {
-    useJUnitPlatform()
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }

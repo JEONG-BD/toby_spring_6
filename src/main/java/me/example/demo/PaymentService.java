@@ -7,10 +7,12 @@ import java.time.LocalDateTime;
 
 public class PaymentService {
 
-    private final WebApiExRateProvider exRateProvider;
+    private final ExRateProvider exRateProvider;
 
-    public PaymentService() {
-        exRateProvider = new WebApiExRateProvider();
+    public PaymentService(ExRateProvider exRateProvider) {
+        //의존 관계 설정
+        this.exRateProvider = exRateProvider;
+
     }
 
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {

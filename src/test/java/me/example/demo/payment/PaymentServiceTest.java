@@ -39,10 +39,10 @@ class PaymentServiceTest {
         //then
         //환율 정보
         assertThat(payment.getExRate()).isNotNull();
-        assertThat(payment.getExRate()).isEqualTo(exRate);
+        assertThat(payment.getExRate()).isEqualByComparingTo(exRate);
         //원화 환산 금액 산
         assertThat(payment.getConvertedAmount()).isEqualTo(payment.getExRate().multiply(payment.getForeignCurrencyAmount()));
-        assertThat(payment.getConvertedAmount()).isEqualTo(convertAmount);
+        assertThat(payment.getConvertedAmount()).isEqualByComparingTo(convertAmount);
         return payment;
     }
 }

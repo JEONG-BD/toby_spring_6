@@ -1,4 +1,4 @@
-package me.example.demo;
+package me.example.demo.payment;
 
 import java.io.IOException;
 import java.math.BigDecimal;

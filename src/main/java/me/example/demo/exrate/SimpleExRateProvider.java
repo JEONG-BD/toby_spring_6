@@ -1,12 +1,12 @@
-package me.example.demo;
+package me.example.demo.exrate;
 
-import org.springframework.stereotype.Component;
+import me.example.demo.payment.ExRateProvider;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 //@Component
-public class SimpleExRateProvider implements ExRateProvider{
+public class SimpleExRateProvider implements ExRateProvider {
 
     @Override
     public BigDecimal getExRate(String currency) throws IOException {

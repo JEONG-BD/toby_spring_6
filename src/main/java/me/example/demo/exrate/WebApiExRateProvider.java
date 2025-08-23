@@ -1,7 +1,7 @@
-package me.example.demo;
+package me.example.demo.exrate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Component;
+import me.example.demo.payment.ExRateProvider;
 
 import java.io.BufferedReader;
 import java.io.IOException;

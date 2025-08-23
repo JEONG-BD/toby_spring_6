@@ -1,10 +1,12 @@
-package me.example.demo;
+package me.example.demo.exrate;
+
+import me.example.demo.payment.ExRateProvider;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class CachedExRateProvider implements ExRateProvider{
+public class CachedExRateProvider implements ExRateProvider {
 
     private final ExRateProvider target;
     private BigDecimal cachedExRate;

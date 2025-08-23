@@ -1,5 +1,7 @@
 package me.example.demo;
 
+import me.example.demo.payment.Payment;
+import me.example.demo.payment.PaymentService;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

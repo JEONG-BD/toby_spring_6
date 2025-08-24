@@ -2,6 +2,10 @@ package me.example.demo.exrate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.example.demo.api.ApiExecutor;
+import me.example.demo.api.ErApiExRateExtractor;
+import me.example.demo.api.ExRateExtractor;
+import me.example.demo.api.SimpleApiExecutor;
 import me.example.demo.payment.ExRateProvider;
 
 import java.io.BufferedReader;
@@ -18,26 +22,27 @@ public class WebApiExRateProvider implements ExRateProvider {
     @Override
     public BigDecimal getExRate(String currency) {
 
-        String url = "https://open.er-api.com/v6/latest/";
-        return runApiForExRate(currency, url);
+        String url = "https://open.er-api.com/v6/latest/" + currency;
+        return runApiForExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 
-    private static BigDecimal runApiForExRate(String currency, String url) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         String response;
         try {
-            uri = new URI( url + currency);
+            uri = new URI( url );
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
         try {
-            response = executeApi(uri);
+            //response = new SimpleApiExecutor().execute(uri);
+            response = apiExecutor.execute(uri);
         } catch (IOException e){
             throw new RuntimeException(e);
         }
 
         try {
-            return extractExRate(response);
+            return exRateExtractor.extract(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -50,12 +55,5 @@ public class WebApiExRateProvider implements ExRateProvider {
         return data.rates().get("KRW");
     }
 
-    private static String executeApi(URI uri) throws IOException {
-        String response;
-        HttpURLConnection urlConnection = (HttpURLConnection) uri.toURL().openConnection();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))){
-            response = br.lines().collect(Collectors.joining());
-        }
-        return response;
-    }
+
 }

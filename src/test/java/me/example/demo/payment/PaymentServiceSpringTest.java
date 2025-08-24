@@ -1,7 +1,6 @@
 package me.example.demo.payment;
 
-import me.example.demo.ObjectFactory;
-import me.example.demo.TestObjectFactory;
+import me.example.demo.TestPaymentConfig;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,7 +19,7 @@ import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class )
-@ContextConfiguration(classes=TestObjectFactory.class)
+@ContextConfiguration(classes=TestPaymentConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PaymentServiceSpringTest {
 

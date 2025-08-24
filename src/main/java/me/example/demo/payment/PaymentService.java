@@ -3,16 +3,18 @@ package me.example.demo.payment;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 //@Component
 public class PaymentService {
 
     private final ExRateProvider exRateProvider;
-
-    public PaymentService(ExRateProvider exRateProvider) {
+    private final Clock clock;
+    public PaymentService(ExRateProvider exRateProvider, Clock clock) {
         //의존 관계 설정
         this.exRateProvider = exRateProvider;
+        this.clock = clock;
 
     }
 
@@ -20,7 +22,7 @@ public class PaymentService {
 
         BigDecimal exRate = exRateProvider.getExRate(currency);
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
-        LocalDateTime validUntil = LocalDateTime.now().plusMinutes(30);
+        LocalDateTime validUntil = LocalDateTime.now(clock).plusMinutes(30);
 
         return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
     }

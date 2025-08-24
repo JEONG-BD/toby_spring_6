@@ -53,7 +53,7 @@ class PaymentServiceTest {
     }
 
     @NonNull
-    private static void getPayment(BigDecimal exRate, BigDecimal convertAmount, Clock clock) throws IOException {
+    private static void getPayment(BigDecimal exRate, BigDecimal convertAmount, Clock clock) {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), clock);
 
         //when

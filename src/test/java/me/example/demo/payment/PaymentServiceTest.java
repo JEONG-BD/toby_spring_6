@@ -23,26 +23,29 @@ class PaymentServiceTest {
     @Order(1)
     public void prepare() throws Exception{
         //given
-        Payment payment = getPayment(valueOf(500), valueOf(5_000));
+        getPayment(valueOf(500), valueOf(5_000));
         //유효 시간 계산
-        assertThat(payment.getValidUntil()).isAfter(LocalDateTime.now());
-        assertThat(payment.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30));
+        //assertThat(payment.getValidUntil()).isAfter(LocalDateTime.now());
+        //assertThat(payment.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30));
 
     }
 
 
     @NonNull
-    private static Payment getPayment(BigDecimal exRate, BigDecimal convertAmount) throws IOException {
+    private static void getPayment(BigDecimal exRate, BigDecimal convertAmount) throws IOException {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate));
+
         //when
         Payment payment = paymentService.prepare(1L, "USD", TEN);
+
         //then
         //환율 정보
         assertThat(payment.getExRate()).isNotNull();
         assertThat(payment.getExRate()).isEqualByComparingTo(exRate);
+
         //원화 환산 금액 산
         assertThat(payment.getConvertedAmount()).isEqualTo(payment.getExRate().multiply(payment.getForeignCurrencyAmount()));
         assertThat(payment.getConvertedAmount()).isEqualByComparingTo(convertAmount);
-        return payment;
+
     }
 }

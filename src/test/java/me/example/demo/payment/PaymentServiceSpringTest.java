@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import static java.math.BigDecimal.TEN;
@@ -31,6 +32,9 @@ class PaymentServiceSpringTest {
 
     @Autowired
     private ExRateProviderStub exRateProviderStub;
+
+    @Autowired
+    private Clock clock;
 
     @Test
     @DisplayName("prepare method가 3가지 요구사항 충족 검증")
@@ -54,8 +58,22 @@ class PaymentServiceSpringTest {
         assertThat(payment2.getExRate()).isEqualByComparingTo(valueOf(500));
         assertThat(payment2.getConvertedAmount()).isEqualByComparingTo(valueOf(5_000));
 
-        //assertThat(payment.getValidUntil()).isAfter(LocalDateTime.now());
-        //assertThat(payment.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30));
+    }
+
+    @Test
+    @DisplayName("Clock")
+    @Order(2)
+    public void validUntil() throws Exception{
+
+        //when
+        Payment payment = paymentService.prepare(1L, "USD", TEN);
+
+        //then
+        LocalDateTime now = LocalDateTime.now(this.clock);
+        LocalDateTime expectedValidUntil = now.plusMinutes(30);
+        exRateProviderStub.setExRate(valueOf(500));
+
+        assertThat(payment.getValidUntil()).isEqualTo(expectedValidUntil);
 
     }
 }

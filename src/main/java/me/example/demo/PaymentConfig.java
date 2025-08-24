@@ -7,13 +7,15 @@ import me.example.demo.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Clock;
+
 @Configuration
 //@ComponentScan
-public class ObjectFactory {
+public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExRateProvider());
+        return new PaymentService(exRateProvider(), clock());
     }
 
     @Bean
@@ -21,8 +23,13 @@ public class ObjectFactory {
         return new WebApiExRateProvider();
     }
 
+    //@Bean
+    //public ExRateProvider cachedExRateProvider(){
+    //    return new CachedExRateProvider(exRateProvider());
+    //}
+
     @Bean
-    public ExRateProvider cachedExRateProvider(){
-        return new CachedExRateProvider(exRateProvider());
+    public Clock clock(){
+        return Clock.systemDefaultZone();
     }
 }

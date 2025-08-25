@@ -1,5 +1,6 @@
 package me.example.demo;
 
+import me.example.demo.api.ApiTemplate;
 import me.example.demo.exrate.CachedExRateProvider;
 import me.example.demo.payment.ExRateProvider;
 import me.example.demo.exrate.WebApiExRateProvider;
@@ -20,14 +21,13 @@ public class PaymentConfig {
 
     @Bean
     public ExRateProvider exRateProvider(){
-        return new WebApiExRateProvider();
+        return new WebApiExRateProvider(apiTemplate());
     }
 
-    //@Bean
-    //public ExRateProvider cachedExRateProvider(){
-    //    return new CachedExRateProvider(exRateProvider());
-    //}
-
+    @Bean
+    public ApiTemplate apiTemplate(){
+        return new ApiTemplate();
+    }
     @Bean
     public Clock clock(){
         return Clock.systemDefaultZone();

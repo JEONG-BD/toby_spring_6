@@ -1,5 +1,7 @@
 package me.example.demo;
 
+import jakarta.persistence.EntityManagerFactory;
+import me.example.demo.data.OrderRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -29,5 +31,10 @@ public class DataCofig {
         }});
 
         return emf;
+    }
+
+    @Bean
+    public OrderRepository orderRepository(EntityManagerFactory emf){
+        return new OrderRepository(emf);
     }
 }

@@ -3,6 +3,7 @@ package me.example.demo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import me.example.demo.data.OrderRepository;
 import me.example.demo.order.Order;
 import me.example.demo.payment.Payment;
 import me.example.demo.payment.PaymentService;
@@ -14,18 +15,11 @@ import java.math.BigDecimal;
 public class DataClient {
     public static void main(String[] args) {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(DataCofig.class);
-        EntityManagerFactory emf = beanFactory.getBean(EntityManagerFactory.class);
-
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
+        OrderRepository orderRepository = beanFactory.getBean(OrderRepository.class);
 
         Order order = new Order("100", BigDecimal.TEN);
-        System.out.println(order);
-        em.persist(order);
-        System.out.println(order);
-
-        em.getTransaction().commit();
-        em.close();
+        orderRepository.save(order);
+        Order order2 = new Order("100", BigDecimal.TEN);
+        orderRepository.save(order2);
     }
 }

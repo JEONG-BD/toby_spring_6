@@ -38,10 +38,7 @@ public class DataCofig {
         return emf;
     }
 
-    @Bean
-    public OrderRepository orderRepository(){
-        return new OrderRepository();
-    }
+
 
     @Bean
     public BeanPostProcessor persistenceAnnotationBeanPostProcessor(){

@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -24,29 +25,34 @@ public class DataCofig {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
     }
 
+    //@Bean
+    //public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+    //    LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+    //    emf.setDataSource(dataSource());
+    //    emf.setPackagesToScan("me.example.demo");
+    //    emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter(){{
+    //        setDatabase(Database.H2);
+    //        setShowSql(true);
+    //        setGenerateDdl(true);
+    //    }});
+    //
+    //    return emf;
+    //}
+
+
+
+    //@Bean
+    //public BeanPostProcessor persistenceAnnotationBeanPostProcessor(){
+    //    return new PersistenceAnnotationBeanPostProcessor();
+    //}
+
+    //@Bean
+    //public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+    //    return new JpaTransactionManager(emf);
+    //}
+
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource());
-        emf.setPackagesToScan("me.example.demo");
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter(){{
-            setDatabase(Database.H2);
-            setShowSql(true);
-            setGenerateDdl(true);
-        }});
-
-        return emf;
-    }
-
-
-
-    @Bean
-    public BeanPostProcessor persistenceAnnotationBeanPostProcessor(){
-        return new PersistenceAnnotationBeanPostProcessor();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-        return new JpaTransactionManager(emf);
+    public PlatformTransactionManager transactionManager(){
+        return new DataSourceTransactionManager(dataSource());
     }
 }

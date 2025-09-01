@@ -3,8 +3,9 @@ package me.example.demo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import me.example.demo.data.OrderRepository;
+
 import me.example.demo.order.Order;
+import me.example.demo.order.OrderRepository;
 import me.example.demo.order.OrderService;
 import me.example.demo.payment.Payment;
 import me.example.demo.payment.PaymentService;

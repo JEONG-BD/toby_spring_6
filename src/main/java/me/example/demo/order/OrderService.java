@@ -1,6 +1,5 @@
 package me.example.demo.order;
 
-import me.example.demo.data.OrderRepository;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
